@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DeleteButton } from "@/components/admin/delete-button";
+import { GitHubImportPanel } from "@/components/admin/github-import-panel";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { getProjects } from "@/lib/queries";
@@ -30,6 +31,10 @@ export default async function AdminProjectsPage() {
           New Project
         </Button>
       </div>
+
+      <GitHubImportPanel
+        existingGithubUrls={projects.map((p) => p.github_url)}
+      />
 
       {projects.length === 0 ? (
         <EmptyState message="No projects yet. Create your first one." />

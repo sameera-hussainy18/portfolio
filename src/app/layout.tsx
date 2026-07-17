@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { PageTransition } from "@/components/shared/page-transition";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -51,7 +52,9 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-grid">
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          <PageTransition>{children}</PageTransition>
+        </main>
         <Footer />
         <Toaster />
       </body>

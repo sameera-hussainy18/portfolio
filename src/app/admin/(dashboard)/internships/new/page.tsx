@@ -1,0 +1,16 @@
+import { InternshipForm } from "@/components/admin/internship-form";
+import { SectionHeading } from "@/components/shared/section-heading";
+import { getTechStack } from "@/lib/queries";
+
+export const dynamic = "force-dynamic";
+
+export default async function NewInternshipPage() {
+  const techStack = await getTechStack();
+
+  return (
+    <div className="flex max-w-2xl flex-col gap-6">
+      <SectionHeading eyebrow="content" title="New Internship" />
+      <InternshipForm techStackOptions={techStack} />
+    </div>
+  );
+}

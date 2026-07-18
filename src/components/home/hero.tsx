@@ -20,6 +20,16 @@ export function Hero() {
         </p>
         <p className="max-w-xl text-muted-foreground">{siteConfig.bio}</p>
 
+        <div className="glow-border inline-flex w-fit items-center gap-2 rounded-full bg-primary/5 px-3.5 py-1.5">
+          <span className="relative flex size-2">
+            <span className="absolute inline-flex size-full motion-safe:animate-ping rounded-full bg-primary opacity-75" />
+            <span className="relative inline-flex size-2 rounded-full bg-primary" />
+          </span>
+          <span className="font-mono text-xs uppercase tracking-wider text-foreground">
+            Open to Hackathons · Internships · Jobs
+          </span>
+        </div>
+
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <Button render={<Link href="/projects" />}>View Projects</Button>
           <Button variant="outline" render={<Link href="/contact" />}>

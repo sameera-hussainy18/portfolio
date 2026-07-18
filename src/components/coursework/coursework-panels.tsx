@@ -5,6 +5,7 @@ import { Award, Code2, Truck, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CourseCategory, CourseWork } from "@/types/database";
 import { EmptyState } from "@/components/shared/empty-state";
+import { TiltCard } from "@/components/shared/tilt-card";
 
 const CATEGORIES: {
   value: CourseCategory;
@@ -86,37 +87,38 @@ export function CourseWorkPanels({ items }: { items: CourseWork[] }) {
         {CATEGORIES.map(({ value, label, icon: Icon }) => {
           const isActive = selected === value;
           return (
-            <button
-              key={value}
-              type="button"
-              aria-pressed={isActive}
-              onClick={() => setSelected(value)}
-              className={cn(
-                "glow-border flex items-center gap-5 rounded-xl bg-card px-7 py-8 text-left transition-all hover:-translate-y-0.5",
-                isActive
-                  ? "ring-2 ring-primary/70"
-                  : "opacity-60 hover:opacity-100"
-              )}
-            >
-              <span
+            <TiltCard key={value}>
+              <button
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => setSelected(value)}
                 className={cn(
-                  "flex size-14 shrink-0 items-center justify-center rounded-lg transition-colors",
+                  "glow-border flex w-full items-center gap-5 rounded-xl bg-card px-7 py-8 text-left transition-all hover:-translate-y-0.5",
                   isActive
-                    ? "bg-primary/15 text-primary"
-                    : "bg-muted text-muted-foreground"
+                    ? "ring-2 ring-primary/70"
+                    : "opacity-60 hover:opacity-100"
                 )}
               >
-                <Icon className="size-7" />
-              </span>
-              <span className="flex flex-col gap-1">
-                <span className="text-xl font-semibold tracking-tight text-foreground">
-                  {label}
+                <span
+                  className={cn(
+                    "flex size-14 shrink-0 items-center justify-center rounded-lg transition-colors",
+                    isActive
+                      ? "bg-primary/15 text-primary"
+                      : "bg-muted text-muted-foreground"
+                  )}
+                >
+                  <Icon className="size-7" />
                 </span>
-                <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
-                  {counts[value]} course{counts[value] === 1 ? "" : "s"}
+                <span className="flex flex-col gap-1">
+                  <span className="text-xl font-semibold tracking-tight text-foreground">
+                    {label}
+                  </span>
+                  <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    {counts[value]} course{counts[value] === 1 ? "" : "s"}
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </TiltCard>
           );
         })}
       </div>

@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GitHubIcon, LinkedInIcon } from "@/components/icons";
+import { ProfilePhoto } from "@/components/home/profile-photo";
 import { siteConfig } from "@/lib/site-config";
 
 export function Hero() {
@@ -55,16 +55,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="glow-border relative size-48 shrink-0 overflow-hidden rounded-full sm:size-64 lg:size-72">
-        <Image
-          src={siteConfig.profileImage}
-          alt={siteConfig.name}
-          fill
-          sizes="(min-width: 1024px) 18rem, (min-width: 640px) 16rem, 12rem"
-          className="object-cover"
-          priority
-        />
-      </div>
+      <ProfilePhoto />
     </div>
   );
 }

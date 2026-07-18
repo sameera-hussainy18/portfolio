@@ -1,11 +1,19 @@
-import type { CourseWork } from "@/types/database";
+"use client";
+
+import { useState } from "react";
+import { Code2, TrendingUp } from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { CourseCategory, CourseWork } from "@/types/database";
 import { EmptyState } from "@/components/shared/empty-state";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+
+const CATEGORIES: {
+  value: CourseCategory;
+  label: string;
+  icon: typeof Code2;
+}[] = [
+  { value: "cs", label: "Computer Science", icon: Code2 },
+  { value: "business", label: "Business", icon: TrendingUp },
+];
 
 function groupBySemester(items: CourseWork[]) {
   const semesters = new Map<number, CourseWork[]>();
@@ -53,27 +61,61 @@ function CourseList({ items }: { items: CourseWork[] }) {
 }
 
 export function CourseWorkPanels({ items }: { items: CourseWork[] }) {
+  const [selected, setSelected] = useState<CourseCategory>("cs");
+
   if (items.length === 0) {
     return (
       <EmptyState message="Coursework will appear here once added in the admin dashboard." />
     );
   }
 
-  const cs = items.filter((item) => item.category === "cs");
-  const business = items.filter((item) => item.category === "business");
+  const counts: Record<CourseCategory, number> = {
+    cs: items.filter((item) => item.category === "cs").length,
+    business: items.filter((item) => item.category === "business").length,
+  };
 
   return (
-    <Tabs defaultValue="cs">
-      <TabsList>
-        <TabsTrigger value="cs">Computer Science</TabsTrigger>
-        <TabsTrigger value="business">Business</TabsTrigger>
-      </TabsList>
-      <TabsContent value="cs" className="pt-6">
-        <CourseList items={cs} />
-      </TabsContent>
-      <TabsContent value="business" className="pt-6">
-        <CourseList items={business} />
-      </TabsContent>
-    </Tabs>
+    <div className="flex flex-col gap-10">
+      <div className="grid gap-4 sm:grid-cols-2">
+        {CATEGORIES.map(({ value, label, icon: Icon }) => {
+          const isActive = selected === value;
+          return (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={isActive}
+              onClick={() => setSelected(value)}
+              className={cn(
+                "glow-border flex items-center gap-5 rounded-xl bg-card px-7 py-8 text-left transition-all hover:-translate-y-0.5",
+                isActive
+                  ? "ring-2 ring-primary/70"
+                  : "opacity-60 hover:opacity-100"
+              )}
+            >
+              <span
+                className={cn(
+                  "flex size-14 shrink-0 items-center justify-center rounded-lg transition-colors",
+                  isActive
+                    ? "bg-primary/15 text-primary"
+                    : "bg-muted text-muted-foreground"
+                )}
+              >
+                <Icon className="size-7" />
+              </span>
+              <span className="flex flex-col gap-1">
+                <span className="text-xl font-semibold tracking-tight text-foreground">
+                  {label}
+                </span>
+                <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                  {counts[value]} course{counts[value] === 1 ? "" : "s"}
+                </span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <CourseList items={items.filter((item) => item.category === selected)} />
+    </div>
   );
 }

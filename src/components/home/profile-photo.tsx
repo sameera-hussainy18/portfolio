@@ -50,13 +50,13 @@ export function ProfilePhoto() {
           rotateX: reducedMotion ? 0 : rotateX,
           rotateY: reducedMotion ? 0 : rotateY,
         }}
-        className="glow-border relative size-48 shrink-0 overflow-hidden rounded-full transition-shadow duration-300 sm:size-64 lg:size-72"
+        className="glow-border relative size-56 shrink-0 overflow-hidden rounded-full transition-shadow duration-300 sm:size-80 lg:size-96"
       >
         <Image
           src={siteConfig.profileImage}
           alt={siteConfig.name}
           fill
-          sizes="(min-width: 1024px) 18rem, (min-width: 640px) 16rem, 12rem"
+          sizes="(min-width: 1024px) 24rem, (min-width: 640px) 20rem, 14rem"
           className="object-cover"
           priority
         />

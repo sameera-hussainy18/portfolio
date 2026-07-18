@@ -66,7 +66,7 @@ function CourseList({ items }: { items: CourseWork[] }) {
 }
 
 export function CourseWorkPanels({ items }: { items: CourseWork[] }) {
-  const [selected, setSelected] = useState<CourseCategory>("cs");
+  const [selected, setSelected] = useState<CourseCategory | null>(null);
 
   if (items.length === 0) {
     return (
@@ -123,7 +123,9 @@ export function CourseWorkPanels({ items }: { items: CourseWork[] }) {
         })}
       </div>
 
-      <CourseList items={items.filter((item) => item.category === selected)} />
+      {selected && (
+        <CourseList items={items.filter((item) => item.category === selected)} />
+      )}
     </div>
   );
 }

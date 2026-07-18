@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { PageTransition } from "@/components/shared/page-transition";
+import { IntroLoader } from "@/components/shared/intro-loader";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-grid">
+        <IntroLoader />
         <Navbar />
         <main className="flex-1">
           <PageTransition>{children}</PageTransition>

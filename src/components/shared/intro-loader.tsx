@@ -4,11 +4,22 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { siteConfig } from "@/lib/site-config";
 
-// Sameera's own languages (from her resume), not a copy of anyone else's greeting set.
-const GREETINGS = ["Hello", "నమస్కారం", "नमस्ते", "السلام علیکم"];
+// First 4 are Sameera's own languages (from her resume); the rest are a
+// welcome-in-many-languages flourish, not a claim she speaks them.
+const GREETINGS = [
+  `Hi, I'm ${siteConfig.name}`,
+  "నమస్కారం",
+  "नमस्ते",
+  "السلام علیکم",
+  "வணக்கம்",
+  "Hola",
+  "Bonjour",
+  "こんにちは",
+  "你好",
+];
 const EASE = [0.22, 1, 0.36, 1] as const;
 const GREETING_INTERVAL_MS = 650;
-const TOTAL_DURATION_MS = 2500;
+const TOTAL_DURATION_MS = 3600;
 
 export function IntroLoader() {
   const [visible, setVisible] = useState(false);
@@ -56,7 +67,7 @@ export function IntroLoader() {
               initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.4, ease: EASE }}
-              className="font-mono text-xs uppercase tracking-[0.3em] text-primary"
+              className="max-w-[90vw] font-mono text-xs tracking-[0.15em] text-primary uppercase sm:tracking-[0.25em]"
             >
               {GREETINGS[greetingIndex]}
             </motion.span>

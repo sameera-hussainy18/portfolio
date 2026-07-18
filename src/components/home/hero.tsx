@@ -55,12 +55,12 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="glow-border relative size-44 shrink-0 overflow-hidden rounded-full sm:size-56 lg:size-64">
+      <div className="glow-border relative size-48 shrink-0 overflow-hidden rounded-full sm:size-64 lg:size-72">
         <Image
           src={siteConfig.profileImage}
           alt={siteConfig.name}
           fill
-          sizes="(min-width: 1024px) 16rem, (min-width: 640px) 14rem, 11rem"
+          sizes="(min-width: 1024px) 18rem, (min-width: 640px) 16rem, 12rem"
           className="object-cover"
           priority
         />

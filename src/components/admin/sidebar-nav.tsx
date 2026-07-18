@@ -8,6 +8,7 @@ import {
   Briefcase,
   ShieldCheck,
   Code2,
+  GraduationCap,
   Mail,
   Lock,
   LogOut,
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { href: "/admin/internships", label: "Internships", icon: Briefcase },
   { href: "/admin/certificates", label: "Certificates", icon: ShieldCheck },
   { href: "/admin/tech-stack", label: "Tech Stack", icon: Code2 },
+  { href: "/admin/coursework", label: "Coursework", icon: GraduationCap },
   { href: "/admin/messages", label: "Messages", icon: Mail },
   { href: "/admin/notes", label: "Notes", icon: Lock },
 ];

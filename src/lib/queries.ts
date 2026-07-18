@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import type {
   Certificate,
   ContactMessage,
+  CourseWork,
   Internship,
   InternshipWithTech,
   PrivateNote,
@@ -130,17 +131,40 @@ export async function getTechStack(): Promise<TechStack[]> {
   return data ?? [];
 }
 
+export async function getCourseWork(): Promise<CourseWork[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("coursework")
+    .select("*")
+    .order("semester", { ascending: true })
+    .order("display_order", { ascending: true });
+
+  return data ?? [];
+}
+
+export async function getCourseWorkById(id: string): Promise<CourseWork | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("coursework")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
+  return data ?? null;
+}
+
 export interface ContentCounts {
   projects: number;
   internships: number;
   certificates: number;
   techStack: number;
+  coursework: number;
 }
 
 export async function getContentCounts(): Promise<ContentCounts> {
   const supabase = await createClient();
-  const [projects, internships, certificates, techStack] = await Promise.all(
-    [
+  const [projects, internships, certificates, techStack, coursework] =
+    await Promise.all([
       supabase.from("projects").select("*", { count: "exact", head: true }),
       supabase
         .from("internships")
@@ -149,14 +173,15 @@ export async function getContentCounts(): Promise<ContentCounts> {
         .from("certificates")
         .select("*", { count: "exact", head: true }),
       supabase.from("tech_stack").select("*", { count: "exact", head: true }),
-    ]
-  );
+      supabase.from("coursework").select("*", { count: "exact", head: true }),
+    ]);
 
   return {
     projects: projects.count ?? 0,
     internships: internships.count ?? 0,
     certificates: certificates.count ?? 0,
     techStack: techStack.count ?? 0,
+    coursework: coursework.count ?? 0,
   };
 }
 

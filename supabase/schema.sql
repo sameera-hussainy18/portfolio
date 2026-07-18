@@ -71,6 +71,17 @@ create table if not exists public.certificates (
 -- Safe to re-run against a database created before image_url existed.
 alter table public.certificates add column if not exists image_url text;
 
+create table if not exists public.coursework (
+  id uuid primary key default gen_random_uuid(),
+  category text not null check (category in ('cs', 'business')),
+  semester smallint not null check (semester between 1 and 8),
+  course_code text not null,
+  course_title text not null,
+  display_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 -- "Get in Touch" — public contact form. Never read on the public site.
 create table if not exists public.contact_messages (
   id uuid primary key default gen_random_uuid(),
@@ -120,6 +131,10 @@ drop trigger if exists set_updated_at on public.certificates;
 create trigger set_updated_at before update on public.certificates
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_updated_at on public.coursework;
+create trigger set_updated_at before update on public.coursework
+for each row execute function public.set_updated_at();
+
 -- =========================================================================
 -- Row Level Security
 -- Content tables: anyone can read, only a logged-in admin (authenticated) can write.
@@ -132,6 +147,7 @@ alter table public.project_tech_stack enable row level security;
 alter table public.internships enable row level security;
 alter table public.internship_tech_stack enable row level security;
 alter table public.certificates enable row level security;
+alter table public.coursework enable row level security;
 alter table public.contact_messages enable row level security;
 alter table public.private_notes enable row level security;
 
@@ -164,6 +180,11 @@ drop policy if exists "public read certificates" on public.certificates;
 create policy "public read certificates" on public.certificates for select using (true);
 drop policy if exists "admin write certificates" on public.certificates;
 create policy "admin write certificates" on public.certificates for all to authenticated using (true) with check (true);
+
+drop policy if exists "public read coursework" on public.coursework;
+create policy "public read coursework" on public.coursework for select using (true);
+drop policy if exists "admin write coursework" on public.coursework;
+create policy "admin write coursework" on public.coursework for all to authenticated using (true) with check (true);
 
 drop policy if exists "anon insert contact_messages" on public.contact_messages;
 create policy "anon insert contact_messages" on public.contact_messages for insert to anon, authenticated with check (true);

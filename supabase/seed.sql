@@ -272,3 +272,56 @@ where not exists (select 1 from public.certificates where title = 'AI Hackathon 
 insert into public.certificates (title, issuer, issue_date, credential_url, credential_id, display_order)
 select 'DAKSH''25 – Team Hospitality', 'DAKSH', '2025-03-01', null, null, 12
 where not exists (select 1 from public.certificates where title = 'DAKSH''25 – Team Hospitality');
+
+-- =========================================================================
+-- Coursework
+-- =========================================================================
+
+-- Source: SASTRA University's official "Scheme of Study" for the B.Tech in
+-- Computer Science and Business Systems (Semesters I-VI), supplied by the
+-- owner. Only courses that are substantively CS or Business are included:
+-- CSE/INT-coded courses -> cs; MGT-coded, "Business Communication & Value
+-- Science"-coded (ENG), and COM-coded courses -> business; Operations
+-- Research is classified business given its direct tie to the owner's
+-- Supply Chain & Project Management minor. General foundation courses
+-- (Mathematics, Physics, Electrical/Electronics Engineering) and non-credit
+-- courses (Induction, Environmental Sciences, Indian Constitution, Essence
+-- of Indian Traditional Knowledge) are omitted as belonging to neither
+-- track. Sem 5 elective: Modern Web Applications (INT316). Sem 6 elective:
+-- Behavioural Economics (MGT222) — both confirmed by the owner from the
+-- Departmental Electives options.
+insert into public.coursework (category, semester, course_code, course_title, display_order)
+select v.category, v.semester, v.course_code, v.course_title, v.display_order
+from (values
+  -- Computer Science
+  ('cs', 1, 'CSE106', 'Fundamentals of Computer Science', 0),
+  ('cs', 2, 'CSE209', 'Data Structures & Algorithms', 0),
+  ('cs', 3, 'CSE211', 'Formal Language and Automata Theory', 0),
+  ('cs', 3, 'CSE212', 'Computer Organization & Architecture', 1),
+  ('cs', 3, 'CSE213', 'Object Oriented Programming', 2),
+  ('cs', 3, 'CSE214', 'Computational Statistics', 3),
+  ('cs', 3, 'INT104', 'Database Management Systems', 4),
+  ('cs', 4, 'CSE308', 'Operating Systems', 0),
+  ('cs', 4, 'CSE215', 'Software Engineering', 1),
+  ('cs', 4, 'CSE318', 'Algorithm Design Strategies & Analysis', 2),
+  ('cs', 5, 'CSE316', 'Software Design with UML', 0),
+  ('cs', 5, 'CSE320', 'Compiler Design', 1),
+  ('cs', 5, 'INT316', 'Modern Web Applications (Elective)', 2),
+  ('cs', 6, 'CSE322', 'Computer Networking Principles & Components', 0),
+  ('cs', 6, 'INT313', 'Computer System Security', 1),
+  ('cs', 6, 'INT314', 'Artificial Intelligence & Logical Reasoning', 2),
+  -- Business
+  ('business', 1, 'ENG136', 'Business Communication & Value Science — I', 0),
+  ('business', 2, 'MGT131', 'Fundamentals of Economics', 0),
+  ('business', 2, 'ENG138', 'Business Communication & Value Science — II', 1),
+  ('business', 4, 'MGT207', 'Introduction to Innovation, IP Management & Entrepreneurship', 0),
+  ('business', 4, 'ENG212', 'Business Communication & Value Science — III', 1),
+  ('business', 4, 'MAT330R01', 'Operations Research', 2),
+  ('business', 5, 'MGT132', 'Fundamentals of Management for Engineers', 0),
+  ('business', 5, 'MGT133', 'Business Strategy', 1),
+  ('business', 5, 'ENG315', 'Design Thinking', 2),
+  ('business', 6, 'COM117', 'Financial & Cost Accounting', 0),
+  ('business', 6, 'ENG316', 'Business Communication & Value Science — IV', 1),
+  ('business', 6, 'MGT222', 'Behavioural Economics (Elective)', 2)
+) as v(category, semester, course_code, course_title, display_order)
+where not exists (select 1 from public.coursework c where c.course_code = v.course_code);

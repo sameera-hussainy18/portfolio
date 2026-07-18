@@ -6,6 +6,8 @@ export type TechCategory =
   | "cloud"
   | "other";
 
+export type CourseCategory = "cs" | "business";
+
 export interface Database {
   public: {
     Tables: {
@@ -167,6 +169,30 @@ export interface Database {
         >;
         Relationships: [];
       };
+      coursework: {
+        Row: {
+          id: string;
+          category: CourseCategory;
+          semester: number;
+          course_code: string;
+          course_title: string;
+          display_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          category: CourseCategory;
+          semester: number;
+          course_code: string;
+          course_title: string;
+          display_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["coursework"]["Insert"]>;
+        Relationships: [];
+      };
       contact_messages: {
         Row: {
           id: string;
@@ -223,6 +249,7 @@ export type TechStack = Database["public"]["Tables"]["tech_stack"]["Row"];
 export type Project = Database["public"]["Tables"]["projects"]["Row"];
 export type Internship = Database["public"]["Tables"]["internships"]["Row"];
 export type Certificate = Database["public"]["Tables"]["certificates"]["Row"];
+export type CourseWork = Database["public"]["Tables"]["coursework"]["Row"];
 export type ContactMessage =
   Database["public"]["Tables"]["contact_messages"]["Row"];
 export type PrivateNote = Database["public"]["Tables"]["private_notes"]["Row"];

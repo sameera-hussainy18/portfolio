@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/internships",
     "/certificates",
     "/tech-stack",
+    "/coursework",
     "/contact",
   ];
 

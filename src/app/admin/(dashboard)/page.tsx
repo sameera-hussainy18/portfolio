@@ -3,6 +3,7 @@ import {
   Briefcase,
   ShieldCheck,
   Code2,
+  GraduationCap,
   Mail,
   Lock,
 } from "lucide-react";
@@ -46,6 +47,12 @@ export default async function AdminOverviewPage() {
           value={counts.techStack}
           href="/admin/tech-stack"
           icon={Code2}
+        />
+        <StatCard
+          label="Coursework"
+          value={counts.coursework}
+          href="/admin/coursework"
+          icon={GraduationCap}
         />
         <StatCard
           label="Unread Messages"

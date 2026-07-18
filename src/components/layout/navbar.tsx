@@ -19,6 +19,7 @@ const navLinks = [
   { href: "/internships", label: "Internships" },
   { href: "/certificates", label: "Certificates" },
   { href: "/tech-stack", label: "Tech Stack" },
+  { href: "/coursework", label: "Coursework" },
   { href: "/contact", label: "Contact" },
 ];
 

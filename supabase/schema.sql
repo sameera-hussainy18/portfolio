@@ -82,6 +82,13 @@ create table if not exists public.coursework (
   updated_at timestamptz not null default now()
 );
 
+-- Widen to include Minor and Honours tracks; course_code isn't always known
+-- for these (no formal code confirmed yet), so it's now optional.
+alter table public.coursework drop constraint if exists coursework_category_check;
+alter table public.coursework add constraint coursework_category_check
+  check (category in ('cs', 'business', 'minor', 'honours'));
+alter table public.coursework alter column course_code drop not null;
+
 -- "Get in Touch" — public contact form. Never read on the public site.
 create table if not exists public.contact_messages (
   id uuid primary key default gen_random_uuid(),

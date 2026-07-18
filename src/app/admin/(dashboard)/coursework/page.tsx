@@ -18,7 +18,12 @@ import { deleteCourseWork } from "@/lib/actions/coursework";
 
 export const dynamic = "force-dynamic";
 
-const CATEGORY_LABELS = { cs: "Computer Science", business: "Business" };
+const CATEGORY_LABELS = {
+  cs: "Computer Science",
+  business: "Business",
+  minor: "Minor",
+  honours: "Honours",
+};
 
 export default async function AdminCourseWorkPage() {
   const coursework = await getCourseWork();
@@ -57,7 +62,7 @@ export default async function AdminCourseWorkPage() {
                   </Badge>
                 </TableCell>
                 <TableCell className="font-mono text-xs">
-                  {item.course_code}
+                  {item.course_code ?? "—"}
                 </TableCell>
                 <TableCell className="font-medium">
                   {item.course_title}

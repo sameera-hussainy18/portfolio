@@ -325,3 +325,19 @@ from (values
   ('business', 6, 'MGT222', 'Behavioural Economics (Elective)', 2)
 ) as v(category, semester, course_code, course_title, display_order)
 where not exists (select 1 from public.coursework c where c.course_code = v.course_code);
+
+-- Minor (Logistics & Supply Chain / Project Management) and Honours (NPTEL)
+-- tracks, supplied directly by the owner. No official course code confirmed
+-- for these yet, so course_code is left null (shown once she provides it).
+-- Guarded by course_title since course_code is null here.
+insert into public.coursework (category, semester, course_code, course_title, display_order)
+select v.category, v.semester, null, v.course_title, v.display_order
+from (values
+  ('minor', 3, 'Logistics and Supply Chain Management', 0),
+  ('minor', 4, 'Digital Supply Chain Transformation', 1),
+  ('minor', 5, 'Total Productive Maintenance', 2),
+  ('minor', 6, 'Project Management', 3),
+  ('honours', 5, 'Cloud Computing', 0),
+  ('honours', 6, 'Joy of Computing', 1)
+) as v(category, semester, course_title, display_order)
+where not exists (select 1 from public.coursework c where c.course_title = v.course_title);

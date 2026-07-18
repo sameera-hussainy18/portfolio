@@ -6,7 +6,7 @@ export type TechCategory =
   | "cloud"
   | "other";
 
-export type CourseCategory = "cs" | "business";
+export type CourseCategory = "cs" | "business" | "minor" | "honours";
 
 export interface Database {
   public: {
@@ -174,7 +174,7 @@ export interface Database {
           id: string;
           category: CourseCategory;
           semester: number;
-          course_code: string;
+          course_code: string | null;
           course_title: string;
           display_order: number;
           created_at: string;
@@ -184,7 +184,7 @@ export interface Database {
           id?: string;
           category: CourseCategory;
           semester: number;
-          course_code: string;
+          course_code?: string | null;
           course_title: string;
           display_order?: number;
           created_at?: string;

@@ -23,7 +23,7 @@ export default async function EditCourseWorkPage({
         defaultValues={{
           category: item.category,
           semester: item.semester,
-          course_code: item.course_code,
+          course_code: item.course_code ?? "",
           course_title: item.course_title,
           display_order: item.display_order,
         }}

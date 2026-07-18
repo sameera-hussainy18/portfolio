@@ -38,6 +38,8 @@ const EMPTY_DEFAULTS: CourseWorkInput = {
 const CATEGORY_LABELS: Record<(typeof COURSE_CATEGORIES)[number], string> = {
   cs: "Computer Science",
   business: "Business",
+  minor: "Minor",
+  honours: "Honours",
 };
 
 export function CourseWorkForm({
@@ -118,7 +120,7 @@ export function CourseWorkForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="course_code">Course Code</Label>
+          <Label htmlFor="course_code">Course Code (optional)</Label>
           <Input
             id="course_code"
             {...register("course_code")}

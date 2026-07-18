@@ -12,6 +12,11 @@ export interface ActionResult {
   error?: string;
 }
 
+function nullableText(value: string | undefined) {
+  const trimmed = (value ?? "").trim();
+  return trimmed === "" ? null : trimmed;
+}
+
 function revalidateCourseWorkPaths() {
   revalidatePath("/admin/coursework");
   revalidatePath("/admin");
@@ -33,7 +38,7 @@ export async function createCourseWork(
   const { error } = await supabase.from("coursework").insert({
     category: parsed.data.category,
     semester: parsed.data.semester,
-    course_code: parsed.data.course_code,
+    course_code: nullableText(parsed.data.course_code),
     course_title: parsed.data.course_title,
     display_order: parsed.data.display_order,
   });
@@ -64,7 +69,7 @@ export async function updateCourseWork(
     .update({
       category: parsed.data.category,
       semester: parsed.data.semester,
-      course_code: parsed.data.course_code,
+      course_code: nullableText(parsed.data.course_code),
       course_title: parsed.data.course_title,
       display_order: parsed.data.display_order,
     })

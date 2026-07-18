@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Code2, TrendingUp } from "lucide-react";
+import { Award, Code2, Truck, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CourseCategory, CourseWork } from "@/types/database";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -13,6 +13,8 @@ const CATEGORIES: {
 }[] = [
   { value: "cs", label: "Computer Science", icon: Code2 },
   { value: "business", label: "Business", icon: TrendingUp },
+  { value: "minor", label: "Minor", icon: Truck },
+  { value: "honours", label: "Honours", icon: Award },
 ];
 
 function groupBySemester(items: CourseWork[]) {
@@ -45,9 +47,11 @@ function CourseList({ items }: { items: CourseWork[] }) {
                 key={course.id}
                 className="glow-border flex items-center gap-3 rounded-lg bg-card px-4 py-2.5"
               >
-                <span className="shrink-0 font-mono text-xs text-primary">
-                  {course.course_code}
-                </span>
+                {course.course_code && (
+                  <span className="shrink-0 font-mono text-xs text-primary">
+                    {course.course_code}
+                  </span>
+                )}
                 <span className="text-sm text-foreground">
                   {course.course_title}
                 </span>
@@ -72,6 +76,8 @@ export function CourseWorkPanels({ items }: { items: CourseWork[] }) {
   const counts: Record<CourseCategory, number> = {
     cs: items.filter((item) => item.category === "cs").length,
     business: items.filter((item) => item.category === "business").length,
+    minor: items.filter((item) => item.category === "minor").length,
+    honours: items.filter((item) => item.category === "honours").length,
   };
 
   return (

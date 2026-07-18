@@ -9,11 +9,11 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Coursework",
   description:
-    "Computer Science and Business coursework from the B.Tech in Computer Science and Business Systems.",
+    "Computer Science, Business, Minor, and Honours coursework from the B.Tech in Computer Science and Business Systems.",
   openGraph: {
     title: "Coursework",
     description:
-      "Computer Science and Business coursework from the B.Tech in Computer Science and Business Systems.",
+      "Computer Science, Business, Minor, and Honours coursework from the B.Tech in Computer Science and Business Systems.",
     url: "/coursework",
     type: "website",
     images: [`/api/og?title=Coursework`],
@@ -33,7 +33,7 @@ export default async function CourseWorkPage() {
       <SectionHeading
         eyebrow="academics"
         title="Coursework"
-        description="Computer Science and Business coursework, semester by semester."
+        description="Computer Science, Business, Minor, and Honours coursework, semester by semester."
       />
 
       <FadeIn>

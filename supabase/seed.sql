@@ -25,6 +25,7 @@ from (values
   ('Express.js', 'framework', 2),
   ('TensorFlow', 'framework', 3),
   ('XGBoost', 'framework', 4),
+  ('PyTorch', 'framework', 5),
   ('MongoDB', 'database', 0),
   ('Git', 'tool', 0),
   ('REST APIs', 'tool', 1),
@@ -141,6 +142,22 @@ select 'Pratibimba E-Magazine', 'pratibimba-e-magazine',
   false, 6
 where not exists (select 1 from public.projects where slug = 'pratibimba-e-magazine');
 
+insert into public.projects (title, slug, summary, description, github_url, featured, display_order)
+select 'Fetal Health Classification', 'fetal-health-classification',
+  'Machine learning model classifying fetal health using Logistic Regression, XGBoost, and MLP Neural Networks.',
+  'Machine learning-based fetal health classification using Logistic Regression, XGBoost, and MLP Neural Networks.',
+  'https://github.com/sameera-hussainy18/fetal-health-classification',
+  false, 7
+where not exists (select 1 from public.projects where slug = 'fetal-health-classification');
+
+insert into public.projects (title, slug, summary, description, github_url, featured, display_order)
+select 'Brain Tumor CNN Classification', 'brain-tumor-cnn-classification',
+  'CNN-based brain tumor classification from MRI scans using PyTorch, with a full training and evaluation breakdown.',
+  'CNN-based brain tumor classification from MRI scans using PyTorch — trained on Kaggle imaging data, with training curves, confusion matrix, and per-class performance breakdown.',
+  'https://github.com/sameera-hussainy18/brain-tumor-cnn-classification',
+  false, 8
+where not exists (select 1 from public.projects where slug = 'brain-tumor-cnn-classification');
+
 -- Project <-> tech stack links
 
 insert into public.project_tech_stack (project_id, tech_stack_id)
@@ -151,6 +168,16 @@ and not exists (select 1 from public.project_tech_stack pts where pts.project_id
 insert into public.project_tech_stack (project_id, tech_stack_id)
 select p.id, t.id from public.projects p, public.tech_stack t
 where p.slug = 'data-science-job-market-analysis' and t.name in ('Python', 'XGBoost', 'Machine Learning', 'Data Science')
+and not exists (select 1 from public.project_tech_stack pts where pts.project_id = p.id and pts.tech_stack_id = t.id);
+
+insert into public.project_tech_stack (project_id, tech_stack_id)
+select p.id, t.id from public.projects p, public.tech_stack t
+where p.slug = 'fetal-health-classification' and t.name in ('Python', 'XGBoost', 'Machine Learning')
+and not exists (select 1 from public.project_tech_stack pts where pts.project_id = p.id and pts.tech_stack_id = t.id);
+
+insert into public.project_tech_stack (project_id, tech_stack_id)
+select p.id, t.id from public.projects p, public.tech_stack t
+where p.slug = 'brain-tumor-cnn-classification' and t.name in ('Python', 'PyTorch', 'Deep Learning')
 and not exists (select 1 from public.project_tech_stack pts where pts.project_id = p.id and pts.tech_stack_id = t.id);
 
 -- =========================================================================

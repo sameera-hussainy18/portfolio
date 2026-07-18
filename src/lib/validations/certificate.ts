@@ -15,3 +15,5 @@ export const certificateSchema = z.object({
 });
 
 export type CertificateInput = z.infer<typeof certificateSchema>;
+
+export const MAX_CERTIFICATE_IMAGE_BYTES = 8 * 1024 * 1024;

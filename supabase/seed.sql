@@ -7,43 +7,62 @@
 -- Tech stack
 -- =========================================================================
 
-insert into public.tech_stack (name, category, display_order)
-select v.name, v.category, v.display_order
+-- icon_slug values are Simple Icons slugs (cdn.simpleicons.org/{slug}), verified
+-- against simple-icons' own slugs.md — left null where no icon exists there.
+insert into public.tech_stack (name, category, icon_slug, display_order)
+select v.name, v.category, v.icon_slug, v.display_order
 from (values
-  ('Python', 'language', 0),
-  ('C', 'language', 1),
-  ('C++', 'language', 2),
-  ('Java', 'language', 3),
-  ('R', 'language', 4),
-  ('JavaScript', 'language', 5),
-  ('SQL', 'language', 6),
-  ('PL/SQL', 'language', 7),
-  ('HTML5', 'language', 8),
-  ('CSS', 'language', 9),
-  ('React.js', 'framework', 0),
-  ('Node.js', 'framework', 1),
-  ('Express.js', 'framework', 2),
-  ('TensorFlow', 'framework', 3),
-  ('XGBoost', 'framework', 4),
-  ('PyTorch', 'framework', 5),
-  ('MongoDB', 'database', 0),
-  ('Git', 'tool', 0),
-  ('REST APIs', 'tool', 1),
-  ('Microsoft Power BI', 'tool', 2),
-  ('ObsPy', 'tool', 3),
-  ('VS Code', 'tool', 4),
-  ('Modelio', 'tool', 5),
-  ('IBM Rational Software (UML)', 'tool', 6),
-  ('Ubuntu', 'tool', 7),
-  ('Cloud Computing', 'cloud', 0),
-  ('Machine Learning', 'other', 0),
-  ('Deep Learning', 'other', 1),
-  ('Data Science', 'other', 2),
-  ('Artificial Intelligence', 'other', 3),
-  ('Cybersecurity', 'other', 4),
-  ('Ethical Hacking', 'other', 5)
-) as v(name, category, display_order)
+  ('Python', 'language', 'python', 0),
+  ('C', 'language', 'c', 1),
+  ('C++', 'language', 'cplusplus', 2),
+  ('Java', 'language', null, 3),
+  ('R', 'language', 'r', 4),
+  ('JavaScript', 'language', 'javascript', 5),
+  ('SQL', 'language', null, 6),
+  ('PL/SQL', 'language', null, 7),
+  ('HTML5', 'language', 'html5', 8),
+  ('CSS', 'language', 'css', 9),
+  ('React.js', 'framework', 'react', 0),
+  ('Node.js', 'framework', 'nodedotjs', 1),
+  ('Express.js', 'framework', 'express', 2),
+  ('TensorFlow', 'framework', 'tensorflow', 3),
+  ('XGBoost', 'framework', null, 4),
+  ('PyTorch', 'framework', 'pytorch', 5),
+  ('MongoDB', 'database', 'mongodb', 0),
+  ('Git', 'tool', 'git', 0),
+  ('REST APIs', 'tool', null, 1),
+  ('Microsoft Power BI', 'tool', null, 2),
+  ('ObsPy', 'tool', null, 3),
+  ('VS Code', 'tool', null, 4),
+  ('Modelio', 'tool', null, 5),
+  ('IBM Rational Software (UML)', 'tool', null, 6),
+  ('Ubuntu', 'tool', 'ubuntu', 7),
+  ('Cloud Computing', 'cloud', null, 0),
+  ('Machine Learning', 'other', null, 0),
+  ('Deep Learning', 'other', null, 1),
+  ('Data Science', 'other', null, 2),
+  ('Artificial Intelligence', 'other', null, 3),
+  ('Cybersecurity', 'other', null, 4),
+  ('Ethical Hacking', 'other', null, 5)
+) as v(name, category, icon_slug, display_order)
 where not exists (select 1 from public.tech_stack t where t.name = v.name);
+
+-- Backfill icon_slug for rows that already existed before this update.
+update public.tech_stack set icon_slug = 'python' where name = 'Python' and icon_slug is null;
+update public.tech_stack set icon_slug = 'c' where name = 'C' and icon_slug is null;
+update public.tech_stack set icon_slug = 'cplusplus' where name = 'C++' and icon_slug is null;
+update public.tech_stack set icon_slug = 'r' where name = 'R' and icon_slug is null;
+update public.tech_stack set icon_slug = 'javascript' where name = 'JavaScript' and icon_slug is null;
+update public.tech_stack set icon_slug = 'html5' where name = 'HTML5' and icon_slug is null;
+update public.tech_stack set icon_slug = 'css' where name = 'CSS' and icon_slug is null;
+update public.tech_stack set icon_slug = 'react' where name = 'React.js' and icon_slug is null;
+update public.tech_stack set icon_slug = 'nodedotjs' where name = 'Node.js' and icon_slug is null;
+update public.tech_stack set icon_slug = 'express' where name = 'Express.js' and icon_slug is null;
+update public.tech_stack set icon_slug = 'tensorflow' where name = 'TensorFlow' and icon_slug is null;
+update public.tech_stack set icon_slug = 'pytorch' where name = 'PyTorch' and icon_slug is null;
+update public.tech_stack set icon_slug = 'mongodb' where name = 'MongoDB' and icon_slug is null;
+update public.tech_stack set icon_slug = 'git' where name = 'Git' and icon_slug is null;
+update public.tech_stack set icon_slug = 'ubuntu' where name = 'Ubuntu' and icon_slug is null;
 
 -- =========================================================================
 -- Internships (most recent/current first)
@@ -158,6 +177,13 @@ select 'Brain Tumor CNN Classification', 'brain-tumor-cnn-classification',
   false, 8
 where not exists (select 1 from public.projects where slug = 'brain-tumor-cnn-classification');
 
+insert into public.projects (title, slug, summary, description, featured, display_order)
+select 'Chettinad CodeFest: AI Agent & LLM Automation', 'chettinad-codefest-ai-agent',
+  'Built an AI agent automation solution with LLM integration at Hackathon Chettinad CodeFest 2026.',
+  'Participated in Hackathon Chettinad CodeFest 2026, organized by Overseas Cyber Technical Services (OCTS) Pvt. Ltd. Demonstrated skills in AI agent development, LLM integration, and intelligent automation, applying analytical thinking and software engineering principles to develop innovative solutions.',
+  false, 9
+where not exists (select 1 from public.projects where slug = 'chettinad-codefest-ai-agent');
+
 -- Project <-> tech stack links
 
 insert into public.project_tech_stack (project_id, tech_stack_id)
@@ -178,6 +204,11 @@ and not exists (select 1 from public.project_tech_stack pts where pts.project_id
 insert into public.project_tech_stack (project_id, tech_stack_id)
 select p.id, t.id from public.projects p, public.tech_stack t
 where p.slug = 'brain-tumor-cnn-classification' and t.name in ('Python', 'PyTorch', 'Deep Learning')
+and not exists (select 1 from public.project_tech_stack pts where pts.project_id = p.id and pts.tech_stack_id = t.id);
+
+insert into public.project_tech_stack (project_id, tech_stack_id)
+select p.id, t.id from public.projects p, public.tech_stack t
+where p.slug = 'chettinad-codefest-ai-agent' and t.name in ('Artificial Intelligence')
 and not exists (select 1 from public.project_tech_stack pts where pts.project_id = p.id and pts.tech_stack_id = t.id);
 
 -- =========================================================================

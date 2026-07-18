@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import {
@@ -22,8 +23,19 @@ export function CertificateCard({
   certificate: Certificate;
 }) {
   return (
-    <Card className="glow-border h-full">
-      <CardHeader>
+    <Card className="glow-border h-full overflow-hidden py-0">
+      {certificate.image_url && (
+        <div className="relative aspect-[16/10] w-full bg-muted">
+          <Image
+            src={certificate.image_url}
+            alt={certificate.title}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </div>
+      )}
+      <CardHeader className="pt-4">
         <div className="flex items-start gap-3">
           <ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" />
           <div>
@@ -32,7 +44,7 @@ export function CertificateCard({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="flex items-center justify-between gap-2">
+      <CardContent className="flex items-center justify-between gap-2 pb-4">
         <span className="font-mono text-xs text-muted-foreground">
           {formatDate(certificate.issue_date)}
         </span>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GitHubIcon, LinkedInIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site-config";
@@ -24,6 +25,13 @@ export function Hero() {
           <Button variant="outline" render={<Link href="/contact" />}>
             Get in Touch
           </Button>
+          <Button
+            variant="ghost"
+            render={<a href="/resume.pdf" download />}
+          >
+            <Download className="size-4" />
+            Download CV
+          </Button>
           <div className="ml-1 flex items-center gap-3">
             <Link
               href={siteConfig.links.github}
@@ -47,12 +55,12 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="glow-border relative size-32 shrink-0 overflow-hidden rounded-full sm:size-40">
+      <div className="glow-border relative size-44 shrink-0 overflow-hidden rounded-full sm:size-56 lg:size-64">
         <Image
           src={siteConfig.profileImage}
           alt={siteConfig.name}
           fill
-          sizes="(min-width: 640px) 10rem, 8rem"
+          sizes="(min-width: 1024px) 16rem, (min-width: 640px) 14rem, 11rem"
           className="object-cover"
           priority
         />

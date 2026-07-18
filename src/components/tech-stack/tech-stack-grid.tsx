@@ -42,8 +42,18 @@ export function TechStackGrid({ items }: { items: TechStack[] }) {
             {group.items.map((item) => (
               <span
                 key={item.id}
-                className="glow-border rounded-lg bg-card px-3.5 py-2 text-sm text-foreground"
+                className="glow-border flex items-center gap-2 rounded-lg bg-card px-3.5 py-2 text-sm text-foreground"
               >
+                {item.icon_slug && (
+                  <span className="flex size-4 shrink-0 items-center justify-center rounded-[3px] bg-white/95 p-0.5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`https://cdn.simpleicons.org/${item.icon_slug}`}
+                      alt=""
+                      className="size-full object-contain"
+                    />
+                  </span>
+                )}
                 {item.name}
               </span>
             ))}

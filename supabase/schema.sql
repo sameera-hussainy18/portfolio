@@ -62,10 +62,14 @@ create table if not exists public.certificates (
   issue_date date not null,
   credential_url text,
   credential_id text,
+  image_url text,
   display_order integer not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Safe to re-run against a database created before image_url existed.
+alter table public.certificates add column if not exists image_url text;
 
 -- "Get in Touch" — public contact form. Never read on the public site.
 create table if not exists public.contact_messages (
@@ -204,3 +208,35 @@ create policy "admin delete note attachments"
 on storage.objects for delete
 to authenticated
 using (bucket_id = 'note-attachments');
+
+-- =========================================================================
+-- Storage: public bucket for certificate images
+-- =========================================================================
+
+insert into storage.buckets (id, name, public)
+values ('certificate-images', 'certificate-images', true)
+on conflict (id) do nothing;
+
+drop policy if exists "public read certificate images" on storage.objects;
+create policy "public read certificate images"
+on storage.objects for select
+using (bucket_id = 'certificate-images');
+
+drop policy if exists "admin write certificate images" on storage.objects;
+create policy "admin write certificate images"
+on storage.objects for insert
+to authenticated
+with check (bucket_id = 'certificate-images');
+
+drop policy if exists "admin update certificate images" on storage.objects;
+create policy "admin update certificate images"
+on storage.objects for update
+to authenticated
+using (bucket_id = 'certificate-images')
+with check (bucket_id = 'certificate-images');
+
+drop policy if exists "admin delete certificate images" on storage.objects;
+create policy "admin delete certificate images"
+on storage.objects for delete
+to authenticated
+using (bucket_id = 'certificate-images');

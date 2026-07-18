@@ -145,6 +145,7 @@ export interface Database {
           issue_date: string;
           credential_url: string | null;
           credential_id: string | null;
+          image_url: string | null;
           display_order: number;
           created_at: string;
           updated_at: string;
@@ -156,6 +157,7 @@ export interface Database {
           issue_date: string;
           credential_url?: string | null;
           credential_id?: string | null;
+          image_url?: string | null;
           display_order?: number;
           created_at?: string;
           updated_at?: string;

@@ -20,6 +20,7 @@ export default async function EditCertificatePage({
       <SectionHeading eyebrow="content" title="Edit Certificate" />
       <CertificateForm
         certificateId={certificate.id}
+        existingImageUrl={certificate.image_url}
         defaultValues={{
           title: certificate.title,
           issuer: certificate.issuer,

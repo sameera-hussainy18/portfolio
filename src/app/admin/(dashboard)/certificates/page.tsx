@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Plus, Pencil, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ export default async function AdminCertificatesPage() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead></TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Issuer</TableHead>
               <TableHead>Issued</TableHead>
@@ -46,6 +48,19 @@ export default async function AdminCertificatesPage() {
           <TableBody>
             {certificates.map((certificate) => (
               <TableRow key={certificate.id}>
+                <TableCell>
+                  {certificate.image_url ? (
+                    <Image
+                      src={certificate.image_url}
+                      alt=""
+                      width={48}
+                      height={30}
+                      className="rounded object-cover"
+                    />
+                  ) : (
+                    <div className="h-[30px] w-12 rounded bg-muted" />
+                  )}
+                </TableCell>
                 <TableCell className="font-medium">{certificate.title}</TableCell>
                 <TableCell>{certificate.issuer}</TableCell>
                 <TableCell className="font-mono text-xs text-muted-foreground">

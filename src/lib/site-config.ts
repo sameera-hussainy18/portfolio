@@ -7,6 +7,12 @@ export const siteConfig = {
     "Portfolio of Pattan Sameera Hussainy — B.Tech Computer Science & Business Systems student at SASTRA University. Projects, internships, certificates, and tech stack.",
   location: "Nellore, Andhra Pradesh, India",
   profileImage: "/profile.jpg",
+  academics: {
+    cgpa: 9.27,
+    semestersCompleted: 6,
+    totalSemesters: 8,
+    progressPercent: 80,
+  },
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   links: {
     github: "https://github.com/sameera-hussainy18",

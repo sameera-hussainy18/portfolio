@@ -3,6 +3,7 @@ import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GitHubIcon, LinkedInIcon } from "@/components/icons";
 import { ProfilePhoto } from "@/components/home/profile-photo";
+import { CGPARing } from "@/components/home/cgpa-ring";
 import { siteConfig } from "@/lib/site-config";
 
 export function Hero() {
@@ -65,7 +66,14 @@ export function Hero() {
         </div>
       </div>
 
-      <ProfilePhoto />
+      <div className="flex flex-col items-center gap-6">
+        <ProfilePhoto />
+        <CGPARing
+          cgpa={siteConfig.academics.cgpa}
+          percent={siteConfig.academics.progressPercent}
+          caption={`${siteConfig.academics.semestersCompleted} of ${siteConfig.academics.totalSemesters} Semesters`}
+        />
+      </div>
     </div>
   );
 }

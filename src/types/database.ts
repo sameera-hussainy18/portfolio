@@ -6,7 +6,12 @@ export type TechCategory =
   | "cloud"
   | "other";
 
-export type CourseCategory = "cs" | "business" | "minor" | "honours";
+export type CourseCategory =
+  | "cs"
+  | "business"
+  | "foundation"
+  | "minor"
+  | "honours";
 
 export interface Database {
   public: {

@@ -21,6 +21,7 @@ export const dynamic = "force-dynamic";
 const CATEGORY_LABELS = {
   cs: "Computer Science",
   business: "Business",
+  foundation: "Maths & Science",
   minor: "Minor",
   honours: "Honours",
 };

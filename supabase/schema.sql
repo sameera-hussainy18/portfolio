@@ -86,7 +86,7 @@ create table if not exists public.coursework (
 -- for these (no formal code confirmed yet), so it's now optional.
 alter table public.coursework drop constraint if exists coursework_category_check;
 alter table public.coursework add constraint coursework_category_check
-  check (category in ('cs', 'business', 'minor', 'honours'));
+  check (category in ('cs', 'business', 'foundation', 'minor', 'honours'));
 alter table public.coursework alter column course_code drop not null;
 
 -- "Get in Touch" — public contact form. Never read on the public site.

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Award, Code2, Truck, TrendingUp } from "lucide-react";
+import { Award, Code2, Sigma, Truck, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CourseCategory, CourseWork } from "@/types/database";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -14,6 +14,7 @@ const CATEGORIES: {
 }[] = [
   { value: "cs", label: "Computer Science", icon: Code2 },
   { value: "business", label: "Business", icon: TrendingUp },
+  { value: "foundation", label: "Maths & Science", icon: Sigma },
   { value: "minor", label: "Minor", icon: Truck },
   { value: "honours", label: "Honours", icon: Award },
 ];
@@ -74,16 +75,12 @@ export function CourseWorkPanels({ items }: { items: CourseWork[] }) {
     );
   }
 
-  const counts: Record<CourseCategory, number> = {
-    cs: items.filter((item) => item.category === "cs").length,
-    business: items.filter((item) => item.category === "business").length,
-    minor: items.filter((item) => item.category === "minor").length,
-    honours: items.filter((item) => item.category === "honours").length,
-  };
+  const countFor = (category: CourseCategory) =>
+    items.filter((item) => item.category === category).length;
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {CATEGORIES.map(({ value, label, icon: Icon }) => {
           const isActive = selected === value;
           return (
@@ -114,7 +111,7 @@ export function CourseWorkPanels({ items }: { items: CourseWork[] }) {
                     {label}
                   </span>
                   <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
-                    {counts[value]} course{counts[value] === 1 ? "" : "s"}
+                    {countFor(value)} course{countFor(value) === 1 ? "" : "s"}
                   </span>
                 </span>
               </button>

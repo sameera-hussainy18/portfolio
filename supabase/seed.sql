@@ -476,3 +476,47 @@ where not exists (
   select 1 from public.project_tech_stack pts
   where pts.project_id = p.id and pts.tech_stack_id = t.id
 );
+
+-- =========================================================================
+-- Semester 7 coursework, Maths & Science block, Coursera certificate (Nov 2026)
+-- Source: SASTRA scheme of study (Semesters I-VII) and the owner's choices:
+-- Elective III = Machine Learning Essentials, Elective IV = Data Mining and
+-- Analytics; semester 7 Honours = Introduction to Generative AI (Coursera).
+-- Labs, projects, and non-credit courses stay out, as before.
+-- =========================================================================
+
+
+insert into public.coursework (category, semester, course_code, course_title, display_order)
+select v.category, v.semester, v.course_code, v.course_title, v.display_order
+from (values
+  -- Maths & Science
+  ('foundation', 1, 'MAT133', 'Discrete Mathematics', 0),
+  ('foundation', 1, 'MAT132', 'Probability & Statistics', 1),
+  ('foundation', 1, 'EEE104', 'Principles of Electrical Engineering', 2),
+  ('foundation', 1, 'PHY137', 'Fundamentals of Physics', 3),
+  ('foundation', 2, 'MAT134', 'Linear Algebra', 0),
+  ('foundation', 2, 'MAT244', 'Statistical Modelling', 1),
+  ('foundation', 2, 'EIE219', 'Principles of Electronics', 2),
+  -- Semester 7
+  ('cs', 7, 'CSE232', 'Usability Design of Software Applications', 0),
+  ('cs', 7, 'INT318', 'IT Workshop (Scilab / MATLAB)', 1),
+  ('cs', 7, 'CSE425', 'Machine Learning Essentials (Elective)', 2),
+  ('cs', 7, 'INT317', 'Data Mining and Analytics (Elective)', 3),
+  ('business', 7, 'MGT211', 'Fundamentals of Human Resource Management', 0),
+  ('business', 7, 'MGT212', 'Introduction to Financial Management', 1)
+) as v(category, semester, course_code, course_title, display_order)
+where not exists (select 1 from public.coursework c where c.course_code = v.course_code);
+
+insert into public.coursework (category, semester, course_code, course_title, display_order)
+select 'honours', 7, null, 'Introduction to Generative AI', 2
+where not exists (select 1 from public.coursework c where c.course_title = 'Introduction to Generative AI');
+
+-- Coursera certificate (newest, so first; the rest shift down one).
+update public.certificates set display_order = display_order + 1
+where not exists (select 1 from public.certificates where title = 'Introduction to Generative AI');
+
+insert into public.certificates (title, issuer, issue_date, credential_url, credential_id, image_url, display_order)
+select 'Introduction to Generative AI', 'Duke University (Coursera)', '2026-09-13',
+  'https://coursera.org/verify/S6T489LV07MB', 'S6T489LV07MB',
+  'https://xkdfzzsfljaldbjgfkak.supabase.co/storage/v1/object/public/certificate-images/1795113239786.jpeg', 0
+where not exists (select 1 from public.certificates where title = 'Introduction to Generative AI');

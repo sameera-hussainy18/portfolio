@@ -38,6 +38,7 @@ const EMPTY_DEFAULTS: CourseWorkInput = {
 const CATEGORY_LABELS: Record<(typeof COURSE_CATEGORIES)[number], string> = {
   cs: "Computer Science",
   business: "Business",
+  foundation: "Maths & Science",
   minor: "Minor",
   honours: "Honours",
 };

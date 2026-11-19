@@ -1,6 +1,12 @@
 import { z } from "zod";
 
-export const COURSE_CATEGORIES = ["cs", "business", "minor", "honours"] as const;
+export const COURSE_CATEGORIES = [
+  "cs",
+  "business",
+  "foundation",
+  "minor",
+  "honours",
+] as const;
 
 export const courseWorkSchema = z.object({
   category: z.enum(COURSE_CATEGORIES),

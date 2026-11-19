@@ -13,9 +13,9 @@ export function InternshipItem({
 }: {
   internship: InternshipWithTech;
 }) {
-  const range = `${formatDate(internship.start_date)} — ${
-    internship.end_date ? formatDate(internship.end_date) : "Present"
-  }`;
+  const start = formatDate(internship.start_date);
+  const end = internship.end_date ? formatDate(internship.end_date) : "Present";
+  const range = start === end ? start : `${start} — ${end}`;
 
   return (
     <div className="relative pl-8">

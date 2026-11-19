@@ -7,16 +7,19 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { FadeIn } from "@/components/shared/fade-in";
 import { JsonLd } from "@/components/shared/json-ld";
-import { getContentCounts, getFeaturedProjects } from "@/lib/queries";
+import { getContentCounts } from "@/lib/queries";
+import { getAllProjectCards } from "@/lib/project-cards";
 import { siteConfig } from "@/lib/site-config";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [counts, featuredProjects] = await Promise.all([
+  const [contentCounts, projects] = await Promise.all([
     getContentCounts(),
-    getFeaturedProjects(3),
+    getAllProjectCards(),
   ]);
+  const counts = { ...contentCounts, projects: projects.length };
+  const featuredProjects = projects.filter((project) => project.featured).slice(0, 3);
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-24 px-6 py-16 sm:py-24">
@@ -62,7 +65,7 @@ export default async function HomePage() {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {featuredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+                <ProjectCard key={project.key} project={project} />
               ))}
             </div>
           )}

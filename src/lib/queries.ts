@@ -21,20 +21,6 @@ export async function getProjects(): Promise<ProjectWithTech[]> {
   return mapTechJoin<Project>(data, "project_tech_stack");
 }
 
-export async function getFeaturedProjects(
-  limit = 3
-): Promise<ProjectWithTech[]> {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("projects")
-    .select("*, project_tech_stack(tech_stack(*))")
-    .eq("featured", true)
-    .order("display_order", { ascending: true })
-    .limit(limit);
-
-  return mapTechJoin<Project>(data, "project_tech_stack");
-}
-
 export async function getProjectBySlug(
   slug: string
 ): Promise<ProjectWithTech | null> {

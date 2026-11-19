@@ -2,7 +2,7 @@ import { ProjectCard } from "@/components/projects/project-card";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { FadeIn } from "@/components/shared/fade-in";
-import { getProjects } from "@/lib/queries";
+import { getAllProjectCards } from "@/lib/project-cards";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await getProjects();
+  const projects = await getAllProjectCards();
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-16 sm:py-24">
@@ -41,7 +41,7 @@ export default async function ProjectsPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, i) => (
-            <FadeIn key={project.id} delay={i * 0.05}>
+            <FadeIn key={project.key} delay={(i % 3) * 0.05}>
               <ProjectCard project={project} />
             </FadeIn>
           ))}

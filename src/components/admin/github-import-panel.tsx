@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { GitHubIcon } from "@/components/icons";
 import { Card, CardContent } from "@/components/ui/card";
-import { getPublicRepos, getUnimportedRepos } from "@/lib/github";
+import { HIDE_TOPIC, getPublicRepos, getUnimportedRepos } from "@/lib/github";
 
 function formatDate(value: string) {
   return new Date(value).toLocaleDateString("en-US", {
@@ -28,10 +28,16 @@ export async function GitHubImportPanel({
         <div className="flex items-center gap-2">
           <GitHubIcon className="size-4 text-muted-foreground" />
           <h2 className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
-            Import from GitHub — {unimported.length} repo
-            {unimported.length === 1 ? "" : "s"} not on the site yet
+            From GitHub — {unimported.length} repo
+            {unimported.length === 1 ? "" : "s"} shown automatically
           </h2>
         </div>
+        <p className="text-xs text-muted-foreground">
+          These appear on the Projects page straight from GitHub. Customize one
+          to edit its title, summary, tech tags, or feature it. Add the topic{" "}
+          <code className="font-mono">{HIDE_TOPIC}</code> to a repo on GitHub
+          to hide it.
+        </p>
 
         <div className="flex flex-col divide-y divide-border/60">
           {unimported.map((repo) => (
@@ -52,7 +58,7 @@ export async function GitHubImportPanel({
                 href={`/admin/projects/new?repo=${encodeURIComponent(repo.full_name)}`}
                 className="inline-flex shrink-0 items-center gap-1 rounded-md border border-border/60 px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:bg-accent"
               >
-                Import
+                Customize
                 <ArrowRight className="size-3" />
               </Link>
             </div>

@@ -11,9 +11,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { GitHubIcon } from "@/components/icons";
 import { TiltCard } from "@/components/shared/tilt-card";
-import type { ProjectWithTech } from "@/types/database";
+import type { ProjectCardData } from "@/lib/project-cards";
 
-export function ProjectCard({ project }: { project: ProjectWithTech }) {
+export function ProjectCard({ project }: { project: ProjectCardData }) {
   return (
     <TiltCard className="h-full">
       <Card className="glow-border h-full transition-shadow">
@@ -27,24 +27,24 @@ export function ProjectCard({ project }: { project: ProjectWithTech }) {
           <CardDescription>{project.summary}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-1 flex-col gap-4">
-          {project.tech_stack.length > 0 && (
+          {project.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
-              {project.tech_stack.map((tech) => (
+              {project.tags.map((tag) => (
                 <Badge
-                  key={tech.id}
+                  key={tag}
                   variant="secondary"
                   className="font-mono text-[10px]"
                 >
-                  {tech.name}
+                  {tag}
                 </Badge>
               ))}
             </div>
           )}
         </CardContent>
         <CardFooter className="flex items-center gap-4 bg-transparent">
-          {project.github_url && (
+          {project.githubUrl && (
             <Link
-              href={project.github_url}
+              href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground"
@@ -53,9 +53,9 @@ export function ProjectCard({ project }: { project: ProjectWithTech }) {
               Code
             </Link>
           )}
-          {project.live_url && (
+          {project.liveUrl && (
             <Link
-              href={project.live_url}
+              href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground"

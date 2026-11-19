@@ -1,7 +1,11 @@
 import { ProjectForm } from "@/components/admin/project-form";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { getTechStack } from "@/lib/queries";
-import { getRepoByFullName, humanizeRepoName } from "@/lib/github";
+import {
+  getRepoByFullName,
+  getRepoSummary,
+  humanizeRepoName,
+} from "@/lib/github";
 import { slugify } from "@/lib/validations/project";
 
 export const dynamic = "force-dynamic";
@@ -18,12 +22,13 @@ export default async function NewProjectPage({
     repoFullName ? getRepoByFullName(repoFullName) : Promise.resolve(null),
   ]);
 
+  const repoSummary = repo ? await getRepoSummary(repo) : "";
   const defaultValues = repo
     ? {
         title: humanizeRepoName(repo.name),
         slug: slugify(repo.name),
-        summary: (repo.description ?? "").slice(0, 300),
-        description: repo.description ?? "",
+        summary: repoSummary.slice(0, 300),
+        description: repoSummary,
         github_url: repo.html_url,
         live_url: repo.homepage ?? "",
         image_url: "",

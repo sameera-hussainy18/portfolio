@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { siteConfig } from "@/lib/site-config";
 
-// First 4 are Sameera's own languages (from her resume); the rest are a
-// welcome-in-many-languages flourish, not a claim she speaks them.
+// The first five are Sameera's own languages per the resume (English, Telugu,
+// Hindi, Urdu, Tamil); the rest are a welcome-in-many-languages flourish.
 const GREETINGS = [
   `Hi, I'm ${siteConfig.name}`,
   "నమస్కారం",

@@ -341,3 +341,138 @@ from (values
   ('honours', 6, 'Joy of Computing', 1)
 ) as v(category, semester, course_title, display_order)
 where not exists (select 1 from public.coursework c where c.course_title = v.course_title);
+
+-- =========================================================================
+-- Updates from the November 2026 resume (127018042_PattanSameeraHussainy.pdf)
+-- Where the resume conflicts with details the owner gave directly, the direct
+-- details stay: CGPA 9.27 (site config) and the KRITI dates (May 24 - Jul 10).
+-- =========================================================================
+
+-- New skills
+insert into public.tech_stack (name, category, icon_slug, display_order)
+select v.name, v.category, v.icon_slug, v.display_order
+from (values
+  ('TypeScript', 'language', 'typescript', 10),
+  ('Next.js', 'framework', 'nextdotjs', 6),
+  ('Tailwind CSS', 'framework', 'tailwindcss', 7),
+  ('Prisma', 'framework', 'prisma', 8),
+  ('FastAPI', 'framework', 'fastapi', 9),
+  ('Keras', 'framework', 'keras', 10),
+  ('Scikit-learn', 'framework', 'scikitlearn', 11),
+  ('Pandas', 'framework', 'pandas', 12),
+  ('NumPy', 'framework', 'numpy', 13),
+  ('Sentence-Transformers', 'framework', null, 14),
+  ('PostgreSQL', 'database', 'postgresql', 1),
+  ('Supabase', 'database', 'supabase', 2),
+  ('Vercel', 'cloud', 'vercel', 1),
+  ('MATLAB', 'tool', null, 8),
+  ('Streamlit', 'tool', 'streamlit', 9),
+  ('Generative AI', 'other', null, 6)
+) as v(name, category, icon_slug, display_order)
+where not exists (select 1 from public.tech_stack t where t.name = v.name);
+
+-- Internships
+update public.internships set
+  location = 'Delhi (Remote)',
+  end_date = '2026-08-01',
+  description = 'Built CredEx, a role-based lending management system for SME loan origination, spanning KYC, underwriting, co-lending, sanction, and disbursement, with rule-based credit decisioning driven by CIBIL score.'
+where company = 'Rakch.ai';
+
+update public.internships set
+  description = 'Built an ML pipeline (ObsPy, TensorFlow, XGBoost) that detects earthquakes in raw seismic waveforms with a CNN and classifies event type with XGBoost: 95.78% detection and 93.17% classification accuracy.'
+where company = 'Indian Institute of Technology, Kharagpur';
+
+update public.internships set
+  location = 'Remote',
+  description = 'Built a Java card-deck simulator with enums, encapsulated Card and Deck classes, and the Collections framework, supporting shuffling, exception-guarded draws, and multi-key sorting via Comparator chaining and lambdas.'
+where company = 'UCANLY x Wipro';
+
+-- New projects
+insert into public.projects (title, slug, summary, description, featured, display_order)
+select v.title, v.slug, v.summary, v.description, false, v.display_order
+from (values
+  ('SASTRA Companion', 'sastra-companion',
+   'Multi-user academic dashboard for timetable, attendance, OD leave, academic calendar, and SGPA/CGPA, with a calendar-PDF parser, email-OTP and JWT authentication, and Playwright-tested CI.',
+   'Built and deployed a multi-user academic dashboard (July - October 2026) for timetable, attendance, OD leave, academic calendar, and SGPA/CGPA, with a calendar-PDF parser, email-OTP and JWT authentication, and Playwright-tested CI.',
+   0),
+  ('TalentIQ: Job–Resume Matching', 'talentiq-job-resume-matching',
+   'Explainable job–resume matcher (SASTRA mini project): a MiniLM encoder fine-tuned with contrastive learning plus 20 field-level signals, reaching 0.962 MAP vs 0.533 for BM25 keyword search.',
+   'Built an explainable job–resume matcher (SASTRA mini project, August - November 2026) by fine-tuning a MiniLM encoder with contrastive learning on hard negatives and scoring 20 field-level signals with a sign-constrained logistic-regression model. Reached 0.962 MAP vs 0.533 for BM25 keyword search; shipped an on-device Streamlit app that reads PDF, Word, and scanned resumes (Tesseract OCR) and quotes the resume line behind every match.',
+   1),
+  ('OneRecon: AI-Powered Reconciliation', 'onerecon-ai-reconciliation',
+   'Built at a BNP Paribas 24-hour hackathon: reconciles XML, CSV, and REST ledgers with LLM-suggested field mapping, a deterministic matching engine, and anomaly checks, with a 90.58% match rate over 22,258 records.',
+   'Built at a BNP Paribas 24-hour hackathon (September 2026): reconciles XML, CSV, and REST ledgers with LLM-suggested field mapping, a deterministic matching engine, and anomaly checks, with a 90.58% match rate over 22,258 records.',
+   2)
+) as v(title, slug, summary, description, display_order)
+where not exists (select 1 from public.projects p where p.slug = v.slug);
+
+insert into public.project_tech_stack (project_id, tech_stack_id)
+select p.id, t.id
+from (values
+  ('sastra-companion', array['Next.js', 'React.js', 'TypeScript', 'Prisma', 'PostgreSQL']),
+  ('talentiq-job-resume-matching', array['Python', 'PyTorch', 'Sentence-Transformers', 'Streamlit']),
+  ('onerecon-ai-reconciliation', array['React.js', 'Node.js', 'FastAPI', 'MongoDB'])
+) as v(slug, techs)
+join public.projects p on p.slug = v.slug
+join public.tech_stack t on t.name = any (v.techs)
+where not exists (
+  select 1 from public.project_tech_stack pts
+  where pts.project_id = p.id and pts.tech_stack_id = t.id
+);
+
+-- Results from the resume on existing projects
+update public.projects set
+  summary = 'End-to-end ML pipeline for seismic waveforms: a CNN detects earthquakes in raw waveforms (95.78% accuracy) and XGBoost classifies the event type (93.17%), built with Python, TensorFlow, XGBoost, and ObsPy.',
+  description = 'End-to-end ML pipeline for seismic waveforms: a CNN detects earthquakes in raw waveforms (95.78% accuracy) and XGBoost classifies the event type (93.17%), built with Python, TensorFlow, XGBoost, and ObsPy.'
+where title = 'Applications of ML in Earthquake';
+
+update public.projects set
+  summary = 'Fetal health classification on 2,126 cardiotocography (CTG) records, comparing Logistic Regression, XGBoost, and an MLP neural network, with 93.66% accuracy.',
+  description = 'Fetal health classification on 2,126 cardiotocography (CTG) records, comparing Logistic Regression, XGBoost, and an MLP neural network, with 93.66% accuracy.'
+where title = 'Fetal Health Classification';
+
+update public.projects set
+  summary = 'Custom PyTorch CNN classifying 7,023 brain MRI scans into four tumor classes at 84.31% test accuracy, with training curves, a confusion matrix, and a per-class breakdown.',
+  description = 'Custom PyTorch CNN classifying 7,023 brain MRI scans into four tumor classes at 84.31% test accuracy, with training curves, a confusion matrix, and a per-class breakdown.'
+where title = 'Brain Tumor CNN Classification';
+
+-- Summary was cut off mid-word by the GitHub import; wording from the owner's GitHub profile README.
+update public.projects set
+  summary = 'Full-stack placement-season tracker: applications, interview reminders, calendar view, and session auth.'
+where title = 'Placement Tracker';
+
+-- Explicit order for every project (several shared 0, so their order wasn't stable).
+update public.projects p set display_order = v.display_order
+from (values
+  ('SASTRA Companion', 0),
+  ('TalentIQ: Job–Resume Matching', 1),
+  ('OneRecon: AI-Powered Reconciliation', 2),
+  ('Applications of ML in Earthquake', 3),
+  ('Fetal Health Classification', 4),
+  ('Brain Tumor CNN Classification', 5),
+  ('CASCADE: Algorithmic IT Asset Cascading Protocol', 6),
+  ('Chettinad CodeFest: AI Agent & LLM Automation', 7),
+  ('Placement Tracker', 8),
+  ('Portfolio', 9),
+  ('Bank Loan Management System', 10),
+  ('AI/ML-Based Data Science Job Market Analysis', 11),
+  ('VUCA World: Geopolitical, Cyber & Biosecurity Risk Research', 12),
+  ('Aroviya Care: Solar-Powered Telemedicine Kiosk', 13),
+  ('PureSenz: Food Adulteration Detection Concept', 14),
+  ('Pratibimba E-Magazine', 15)
+) as v(title, display_order)
+where p.title = v.title;
+
+-- Tags for projects that had none (from their own repos).
+insert into public.project_tech_stack (project_id, tech_stack_id)
+select p.id, t.id
+from (values
+  ('Portfolio', array['Next.js', 'React.js', 'TypeScript', 'Tailwind CSS', 'Supabase']),
+  ('CASCADE: Algorithmic IT Asset Cascading Protocol', array['Python'])
+) as v(title, techs)
+join public.projects p on p.title = v.title
+join public.tech_stack t on t.name = any (v.techs)
+where not exists (
+  select 1 from public.project_tech_stack pts
+  where pts.project_id = p.id and pts.tech_stack_id = t.id
+);

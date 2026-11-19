@@ -27,7 +27,7 @@ export function Hero() {
             <span className="relative inline-flex size-2 rounded-full bg-primary" />
           </span>
           <span className="font-mono text-xs uppercase tracking-wider text-foreground">
-            Open to Hackathons · Internships · Jobs
+            Incoming Intern · BNP Paribas
           </span>
         </div>
 
